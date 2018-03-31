@@ -15,7 +15,12 @@ class CreateChatUserMigration extends Migration
     {
         Schema::create('chat_user', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('chat_id');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('chat_id')->references('id')->on('chats')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
