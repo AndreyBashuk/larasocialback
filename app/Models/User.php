@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Passport\HasApiTokens;
 
 /**
@@ -28,6 +29,9 @@ use Laravel\Passport\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
+ * @property string $avatar
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereAvatar($value)
  */
 class User extends Authenticatable
 {
@@ -60,5 +64,16 @@ class User extends Authenticatable
 
     public function messages() {
         return $this->hasMany(Message::class);
+    }
+
+    /**
+     * @param $chat_id
+     * @return bool
+     */
+    public function canJoinChat($chat_id) {
+        return DB::table('chat_user')->where([
+            'chat_id' => $chat_id,
+            'user_id' => $this->id
+        ])->exists();
     }
 }

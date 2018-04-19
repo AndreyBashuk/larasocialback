@@ -12,14 +12,20 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\User::class, 5)->create()->each(function ($user) {
-            $user->chats()
-                ->save(factory(\App\Models\Chat::class)
-                ->create());
-            factory(\App\Models\Message::class, random_int(0,10))->create([
-               'user_id' => $user->id,
-               'chat_id' => $user->chats->first()->id
-            ]);
+
+        $users = factory(\App\Models\User::class,5)->create();
+        $chats = factory(\App\Models\Chat::class,5)->create();
+
+        $chats->each(function ($chat) use ($users) {
+            $random_number = random_int(0,count($users));
+            for ($i = 0; $i< $random_number; $i++) {
+                $users[$i]->chats()->attach($chat->id);
+                factory(\App\Models\Message::class, random_int(0,5))->create([
+                    'user_id' => $users[$i]->id,
+                    'chat_id' => $users[$i]->chats[random_int(0,count($users[$i]->chats)-1)]->id
+                ]);
+            }
         });
+
     }
 }

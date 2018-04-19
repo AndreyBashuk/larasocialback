@@ -20,10 +20,20 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Message whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Message whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Message whereUserId($value)
+ * @property-read \App\Models\Chat $chats
+ * @property-read \App\Models\User $creator
  */
 class Message extends Model
 {
+    const MESSAGE_PAGINATED_COUNT = 10;
+
+    protected $fillable = ['user_id','chat_id','message'];
+
     public function chats() {
         return $this->belongsTo(Chat::class);
+    }
+
+    public function creator() {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

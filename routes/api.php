@@ -23,7 +23,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:api')->group(function () {
 
-Route::resource('chat', 'ChatController');
+    Route::get('/me', 'API\\UserController@show');
+    Route::get('chat', 'API\\ChatController@index');
+    Route::post('chat', 'API\\ChatController@store');
+    Route::delete('chat/{chat}', 'API\\ChatController@destroy');
 
-Route::resource('message', 'MessageController');
+    Route::post('/message', 'API\\MessageController@store');
+
+    Route::get('message/{chat}', 'API\\MessageController@index');
+});

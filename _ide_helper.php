@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.3 on 2018-03-31 12:35:11.
+ * Generated for Laravel 5.6.16 on 2018-04-17 19:26:37.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1745,6 +1745,21 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Invalid other sessions for the current user.
+         * 
+         * The application must be using the AuthenticateSession middleware.
+         *
+         * @param string $password
+         * @param string $attribute
+         * @return $this 
+         * @static 
+         */ 
+        public static function logoutOtherDevices($password, $attribute = 'password')
+        {
+            return \Illuminate\Auth\SessionGuard::logoutOtherDevices($password, $attribute);
+        }
+        
+        /**
          * Register an authentication attempt event listener.
          *
          * @param mixed $callback
@@ -1979,6 +1994,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -2121,6 +2137,19 @@ namespace Illuminate\Support\Facades {
         public static function component($path, $alias = null)
         {
             \Illuminate\View\Compilers\BladeCompiler::component($path, $alias);
+        }
+        
+        /**
+         * Register an include alias directive.
+         *
+         * @param string $path
+         * @param string $alias
+         * @return void 
+         * @static 
+         */ 
+        public static function include($path, $alias = null)
+        {
+            \Illuminate\View\Compilers\BladeCompiler::include($path, $alias);
         }
         
         /**
@@ -2286,7 +2315,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get a driver instance.
          *
-         * @param string $name
+         * @param string|null $name
          * @return mixed 
          * @static 
          */ 
@@ -2440,7 +2469,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get a cache driver instance.
          *
-         * @param string $driver
+         * @param string|null $driver
          * @return mixed 
          * @static 
          */ 
@@ -2570,7 +2599,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $key
          * @param mixed $value
-         * @param \DateTimeInterface|\DateInterval|float|int $minutes
+         * @param \DateTimeInterface|\DateInterval|float|int|null $minutes
          * @return void 
          * @static 
          */ 
@@ -2585,8 +2614,8 @@ namespace Illuminate\Support\Facades {
          * @param string $key The key of the item to store.
          * @param mixed $value The value of the item to store, must be serializable.
          * @param null|int|\DateInterval $ttl Optional. The TTL value of this item. If no value is sent and
-         *                                     the driver supports TTL then the library may set a default value
-         *                                     for it or let the driver take care of that.
+         *                                      the driver supports TTL then the library may set a default value
+         *                                      for it or let the driver take care of that.
          * @return bool True on success and false on failure.
          * @throws \Psr\SimpleCache\InvalidArgumentException
          *   MUST be thrown if the $key string is not a legal value.
@@ -2615,8 +2644,8 @@ namespace Illuminate\Support\Facades {
          *
          * @param \Psr\SimpleCache\iterable $values A list of key => value pairs for a multiple-set operation.
          * @param null|int|\DateInterval $ttl Optional. The TTL value of this item. If no value is sent and
-         *                                      the driver supports TTL then the library may set a default value
-         *                                      for it or let the driver take care of that.
+         *                                       the driver supports TTL then the library may set a default value
+         *                                       for it or let the driver take care of that.
          * @return bool True on success and false on failure.
          * @throws \Psr\SimpleCache\InvalidArgumentException
          *   MUST be thrown if $values is neither an array nor a Traversable,
@@ -2899,6 +2928,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -4019,6 +4049,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Unset the event dispatcher for this connection.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function unsetEventDispatcher()
+        {
+            //Method inherited from \Illuminate\Database\Connection            
+            \Illuminate\Database\MySqlConnection::unsetEventDispatcher();
+        }
+        
+        /**
          * Determine if the connection in a "dry run".
          *
          * @return bool 
@@ -4891,6 +4933,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -4945,7 +4988,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $name
          * @param string $class
-         * @param array $abilities
+         * @param array|null $abilities
          * @return $this 
          * @static 
          */ 
@@ -5504,6 +5547,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Set the loaded translation groups.
+         *
+         * @param array $loaded
+         * @return void 
+         * @static 
+         */ 
+        public static function setLoaded($loaded)
+        {
+            \Illuminate\Translation\Translator::setLoaded($loaded);
+        }
+        
+        /**
          * Set the parsed value of a key.
          *
          * @param string $key
@@ -5535,6 +5590,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -6027,6 +6083,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -6169,7 +6226,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Attempt to get the broker from the local cache.
          *
-         * @param string $name
+         * @param string|null $name
          * @return \Illuminate\Contracts\Auth\PasswordBroker 
          * @static 
          */ 
@@ -6725,6 +6782,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -6742,6 +6800,46 @@ namespace Illuminate\Support\Facades {
         public static function hasMacro($name)
         {
             return \Illuminate\Routing\Redirector::hasMacro($name);
+        }
+         
+    }
+
+    class Redis {
+        
+        /**
+         * Get a Redis connection by name.
+         *
+         * @param string|null $name
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @static 
+         */ 
+        public static function connection($name = null)
+        {
+            return \Illuminate\Redis\RedisManager::connection($name);
+        }
+        
+        /**
+         * Resolve the given connection by name.
+         *
+         * @param string|null $name
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function resolve($name = null)
+        {
+            return \Illuminate\Redis\RedisManager::resolve($name);
+        }
+        
+        /**
+         * Return all of the created connections.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function connections()
+        {
+            return \Illuminate\Redis\RedisManager::connections();
         }
          
     }
@@ -7012,6 +7110,19 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Create a new request instance from the given Laravel request.
+         *
+         * @param \Illuminate\Http\Request $from
+         * @param \Illuminate\Http\Request|null $to
+         * @return static 
+         * @static 
+         */ 
+        public static function createFrom($from, $to = null)
+        {
+            return \Illuminate\Http\Request::createFrom($from, $to);
+        }
+        
+        /**
          * Create an Illuminate request from a Symfony instance.
          *
          * @param \Symfony\Component\HttpFoundation\Request $request
@@ -7240,7 +7351,7 @@ namespace Illuminate\Support\Facades {
          * @param array $cookies The COOKIE parameters
          * @param array $files The FILES parameters
          * @param array $server The SERVER parameters
-         * @param string|resource $content The raw body data
+         * @param string|resource|null $content The raw body data
          * @static 
          */ 
         public static function initialize($query = array(), $request = array(), $attributes = array(), $cookies = array(), $files = array(), $server = array(), $content = null)
@@ -7273,7 +7384,7 @@ namespace Illuminate\Support\Facades {
          * @param array $cookies The request cookies ($_COOKIE)
          * @param array $files The request files ($_FILES)
          * @param array $server The server parameters ($_SERVER)
-         * @param string|resource $content The raw body data
+         * @param string|resource|null $content The raw body data
          * @return static 
          * @static 
          */ 
@@ -8463,6 +8574,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Determine if the request contains a non-empty value for any of the given inputs.
+         *
+         * @param string|array $keys
+         * @return bool 
+         * @static 
+         */ 
+        public static function anyFilled($keys)
+        {
+            return \Illuminate\Http\Request::anyFilled($keys);
+        }
+        
+        /**
          * Get the keys for all of the input and files.
          *
          * @return array 
@@ -8627,6 +8750,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -8654,6 +8778,16 @@ namespace Illuminate\Support\Facades {
         public static function validate($rules, $params = null)
         {
             return \Illuminate\Http\Request::validate($rules, $params);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function hasValidSignature()
+        {
+            return \Illuminate\Http\Request::hasValidSignature();
         }
          
     }
@@ -8870,6 +9004,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -9640,6 +9775,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -10525,6 +10661,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Create an instance of the sftp driver.
+         *
+         * @param array $config
+         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @static 
+         */ 
+        public static function createSftpDriver($config)
+        {
+            return \Illuminate\Filesystem\FilesystemManager::createSftpDriver($config);
+        }
+        
+        /**
          * Create an instance of the Amazon S3 driver.
          *
          * @param array $config
@@ -11125,6 +11273,46 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Create a signed route URL for a named route.
+         *
+         * @param string $name
+         * @param array $parameters
+         * @param \DateTimeInterface|int $expiration
+         * @return string 
+         * @static 
+         */ 
+        public static function signedRoute($name, $parameters = array(), $expiration = null)
+        {
+            return \Illuminate\Routing\UrlGenerator::signedRoute($name, $parameters, $expiration);
+        }
+        
+        /**
+         * Create a temporary signed route URL for a named route.
+         *
+         * @param string $name
+         * @param \DateTimeInterface|int $expiration
+         * @param array $parameters
+         * @return string 
+         * @static 
+         */ 
+        public static function temporarySignedRoute($name, $expiration, $parameters = array())
+        {
+            return \Illuminate\Routing\UrlGenerator::temporarySignedRoute($name, $expiration, $parameters);
+        }
+        
+        /**
+         * Determine if the given request has a valid signature.
+         *
+         * @param \Illuminate\Http\Request $request
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasValidSignature($request)
+        {
+            return \Illuminate\Routing\UrlGenerator::hasValidSignature($request);
+        }
+        
+        /**
          * Get the URL to a named route.
          *
          * @param string $name
@@ -11334,6 +11522,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Set the encryption key resolver.
+         *
+         * @param callable $keyResolver
+         * @return $this 
+         * @static 
+         */ 
+        public static function setKeyResolver($keyResolver)
+        {
+            return \Illuminate\Routing\UrlGenerator::setKeyResolver($keyResolver);
+        }
+        
+        /**
          * Set the root controller namespace.
          *
          * @param string $rootNamespace
@@ -11363,6 +11563,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param object $mixin
          * @return void 
+         * @throws \ReflectionException
          * @static 
          */ 
         public static function mixin($mixin)
@@ -12827,6 +13028,244 @@ namespace Barryvdh\Debugbar {
  
 }
 
+namespace Clockwork\Support\Laravel { 
+
+    class Facade {
+        
+        /**
+         * Add a new data source
+         *
+         * @static 
+         */ 
+        public static function addDataSource($dataSource)
+        {
+            return \Clockwork\Clockwork::addDataSource($dataSource);
+        }
+        
+        /**
+         * Return array of all added data sources
+         *
+         * @static 
+         */ 
+        public static function getDataSources()
+        {
+            return \Clockwork\Clockwork::getDataSources();
+        }
+        
+        /**
+         * Return the request object
+         *
+         * @static 
+         */ 
+        public static function getRequest()
+        {
+            return \Clockwork\Clockwork::getRequest();
+        }
+        
+        /**
+         * Set a custom request object
+         *
+         * @static 
+         */ 
+        public static function setRequest($request)
+        {
+            return \Clockwork\Clockwork::setRequest($request);
+        }
+        
+        /**
+         * Add data from all data sources to request
+         *
+         * @static 
+         */ 
+        public static function resolveRequest()
+        {
+            return \Clockwork\Clockwork::resolveRequest();
+        }
+        
+        /**
+         * Store request via storage object
+         *
+         * @static 
+         */ 
+        public static function storeRequest()
+        {
+            return \Clockwork\Clockwork::storeRequest();
+        }
+        
+        /**
+         * Return the storage object
+         *
+         * @static 
+         */ 
+        public static function getStorage()
+        {
+            return \Clockwork\Clockwork::getStorage();
+        }
+        
+        /**
+         * Set a custom storage object
+         *
+         * @static 
+         */ 
+        public static function setStorage($storage)
+        {
+            return \Clockwork\Clockwork::setStorage($storage);
+        }
+        
+        /**
+         * Return the log instance
+         *
+         * @static 
+         */ 
+        public static function getLog()
+        {
+            return \Clockwork\Clockwork::getLog();
+        }
+        
+        /**
+         * Set a custom log instance
+         *
+         * @static 
+         */ 
+        public static function setLog($log)
+        {
+            return \Clockwork\Clockwork::setLog($log);
+        }
+        
+        /**
+         * Return the timeline instance
+         *
+         * @static 
+         */ 
+        public static function getTimeline()
+        {
+            return \Clockwork\Clockwork::getTimeline();
+        }
+        
+        /**
+         * Set a custom timeline instance
+         *
+         * @static 
+         */ 
+        public static function setTimeline($timeline)
+        {
+            return \Clockwork\Clockwork::setTimeline($timeline);
+        }
+        
+        /**
+         * Shortcut methods for the current log instance
+         *
+         * @static 
+         */ 
+        public static function log($level, $message, $context = array())
+        {
+            return \Clockwork\Clockwork::log($level, $message, $context);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function emergency($message, $context = array())
+        {
+            return \Clockwork\Clockwork::emergency($message, $context);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function alert($message, $context = array())
+        {
+            return \Clockwork\Clockwork::alert($message, $context);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function critical($message, $context = array())
+        {
+            return \Clockwork\Clockwork::critical($message, $context);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function error($message, $context = array())
+        {
+            return \Clockwork\Clockwork::error($message, $context);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function warning($message, $context = array())
+        {
+            return \Clockwork\Clockwork::warning($message, $context);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function notice($message, $context = array())
+        {
+            return \Clockwork\Clockwork::notice($message, $context);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function info($message, $context = array())
+        {
+            return \Clockwork\Clockwork::info($message, $context);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function debug($message, $context = array())
+        {
+            return \Clockwork\Clockwork::debug($message, $context);
+        }
+        
+        /**
+         * Shortcut methods for the current timeline instance
+         *
+         * @static 
+         */ 
+        public static function startEvent($name, $description, $time = null)
+        {
+            return \Clockwork\Clockwork::startEvent($name, $description, $time);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function endEvent($name)
+        {
+            return \Clockwork\Clockwork::endEvent($name);
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -13629,6 +14068,20 @@ namespace  {
             }
          
             /**
+             * Add a subselect expression to the query.
+             *
+             * @param \Closure|\Illuminate\Database\Query\Builder|string $query
+             * @param string $as
+             * @return \Illuminate\Database\Query\Builder|static 
+             * @throws \InvalidArgumentException
+             * @static 
+             */ 
+            public static function selectSub($query, $as)
+            {    
+                return \Illuminate\Database\Query\Builder::selectSub($query, $as);
+            }
+         
+            /**
              * Add a new "raw" select expression to the query.
              *
              * @param string $expression
@@ -13642,7 +14095,7 @@ namespace  {
             }
          
             /**
-             * Add a subselect expression to the query.
+             * Makes "from" fetch from a subquery.
              *
              * @param \Closure|\Illuminate\Database\Query\Builder|string $query
              * @param string $as
@@ -13650,9 +14103,22 @@ namespace  {
              * @throws \InvalidArgumentException
              * @static 
              */ 
-            public static function selectSub($query, $as)
+            public static function fromSub($query, $as)
             {    
-                return \Illuminate\Database\Query\Builder::selectSub($query, $as);
+                return \Illuminate\Database\Query\Builder::fromSub($query, $as);
+            }
+         
+            /**
+             * Add a raw from clause to the query.
+             *
+             * @param string $expression
+             * @param mixed $bindings
+             * @return \Illuminate\Database\Query\Builder|static 
+             * @static 
+             */ 
+            public static function fromRaw($expression, $bindings = array())
+            {    
+                return \Illuminate\Database\Query\Builder::fromRaw($expression, $bindings);
             }
          
             /**
@@ -13809,6 +14275,21 @@ namespace  {
             public static function mergeWheres($wheres, $bindings)
             {    
                 \Illuminate\Database\Query\Builder::mergeWheres($wheres, $bindings);
+            }
+         
+            /**
+             * Prepare the value and operator for a where clause.
+             *
+             * @param string $value
+             * @param string $operator
+             * @param bool $useDefault
+             * @return array 
+             * @throws \InvalidArgumentException
+             * @static 
+             */ 
+            public static function prepareValueAndOperator($value, $operator, $useDefault = false)
+            {    
+                return \Illuminate\Database\Query\Builder::prepareValueAndOperator($value, $operator, $useDefault);
             }
          
             /**
@@ -14102,6 +14583,20 @@ namespace  {
             }
          
             /**
+             * Add an "or where day" statement to the query.
+             *
+             * @param string $column
+             * @param string $operator
+             * @param mixed $value
+             * @return \Illuminate\Database\Query\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereDay($column, $operator, $value = null)
+            {    
+                return \Illuminate\Database\Query\Builder::orWhereDay($column, $operator, $value);
+            }
+         
+            /**
              * Add a "where month" statement to the query.
              *
              * @param string $column
@@ -14117,6 +14612,20 @@ namespace  {
             }
          
             /**
+             * Add an "or where month" statement to the query.
+             *
+             * @param string $column
+             * @param string $operator
+             * @param mixed $value
+             * @return \Illuminate\Database\Query\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereMonth($column, $operator, $value = null)
+            {    
+                return \Illuminate\Database\Query\Builder::orWhereMonth($column, $operator, $value);
+            }
+         
+            /**
              * Add a "where year" statement to the query.
              *
              * @param string $column
@@ -14129,6 +14638,20 @@ namespace  {
             public static function whereYear($column, $operator, $value = null, $boolean = 'and')
             {    
                 return \Illuminate\Database\Query\Builder::whereYear($column, $operator, $value, $boolean);
+            }
+         
+            /**
+             * Add an "or where year" statement to the query.
+             *
+             * @param string $column
+             * @param string $operator
+             * @param mixed $value
+             * @return \Illuminate\Database\Query\Builder|static 
+             * @static 
+             */ 
+            public static function orWhereYear($column, $operator, $value = null)
+            {    
+                return \Illuminate\Database\Query\Builder::orWhereYear($column, $operator, $value);
             }
          
             /**
@@ -14906,6 +15429,7 @@ namespace  {
              *
              * @param object $mixin
              * @return void 
+             * @throws \ReflectionException
              * @static 
              */ 
             public static function mixin($mixin)
@@ -14962,6 +15486,8 @@ namespace  {
 
     class Redirect extends \Illuminate\Support\Facades\Redirect {}
 
+    class Redis extends \Illuminate\Support\Facades\Redis {}
+
     class Request extends \Illuminate\Support\Facades\Request {}
 
     class Response extends \Illuminate\Support\Facades\Response {}
@@ -14981,6 +15507,8 @@ namespace  {
     class View extends \Illuminate\Support\Facades\View {}
 
     class Debugbar extends \Barryvdh\Debugbar\Facade {}
+
+    class Clockwork extends \Clockwork\Support\Laravel\Facade {}
  
 }
 

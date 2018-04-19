@@ -11,6 +11,15 @@
 |
 */
 
+use App\Models\Chat;
+
 Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+    Log::info('Hell yeah');
+    return true;
+});
+
+Broadcast::channel('chat.{chat}', function ($user, $chat_id) {
+   if($user->canJoinChat($chat_id)) {
+       return $user;
+   }
 });

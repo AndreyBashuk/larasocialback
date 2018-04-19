@@ -21,10 +21,11 @@
                 $origin = $request->server()['HTTP_ORIGIN'];
                 if(in_array($origin, $domains)) {
                   header('Access-Control-Allow-Origin: ' . $origin);
-                  header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization');
-                }    
+                  header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization, X-Socket-ID');
+                  header('Access-Control-Max-Age: 10000000');
+                }
 
-            }    
+            }
 
             return $next($request);
         }

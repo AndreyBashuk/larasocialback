@@ -16,9 +16,18 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Chat whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Chat whereIsConversation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Chat whereUpdatedAt($value)
+ * @property string $avatar
+ * @property string|null $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Chat whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Chat whereName($value)
  */
 class Chat extends Model
 {
+
+    protected $guarded = [];
+
     public function users() {
         return $this->belongsToMany(User::class,'chat_user');
     }
