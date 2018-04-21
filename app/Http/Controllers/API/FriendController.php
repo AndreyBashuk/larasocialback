@@ -6,21 +6,22 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class FriendController extends Controller
 {
     public function index()
     {
-        return response(User::all());
+        return response (auth()->user()->friends);
     }
 
     public function store(Request $request)
     {
-        //
+        $friend = User::findOrFail(request('friend_id'));
+        auth()->user()->addToFriends($friend);
     }
 
-    public function show()
+    public function show($id)
     {
-        return response(auth()->user());
+        //
     }
 
     public function update(Request $request, $id)

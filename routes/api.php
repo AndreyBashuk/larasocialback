@@ -26,11 +26,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->group(function () {
 
     Route::get('/me', 'API\\UserController@show');
+    Route::get('users', 'API\\UserController@index')->name('api.users.get');
     Route::get('chat', 'API\\ChatController@index');
-    Route::post('chat', 'API\\ChatController@store')->name('api.create_chat');
-    Route::delete('chat/{chat}', 'API\\ChatController@destroy');
+    Route::post('chat', 'API\\ChatController@store')->name('api.chat.post');
+    Route::delete('chat/{chat}', 'API\\ChatController@destroy')->name('api.chat.delete');
 
-    Route::post('/message', 'API\\MessageController@store');
+    Route::post('/message', 'API\\MessageController@store')->name('api.message.post');
 
-    Route::get('message/{chat}', 'API\\MessageController@index');
+    Route::get('message/{chat}', 'API\\MessageController@index')->name('api.message.get');
+    Route::delete('message', 'API\\MessageController@destroy')->name('api.message.delete');
+
+    Route::get('friends', 'API\\FriendController@index')->name('api.friends.get');
+    Route::post('friends', 'API\\FriendController@store')->name('api.friends.post');
 });

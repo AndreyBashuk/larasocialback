@@ -30,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('message.view', 'App\\Policies\\MessagePolicy@view');
         Gate::define('message.create', 'App\\Policies\\MessagePolicy@create');
+        Gate::define('message.delete', 'App\\Policies\\MessagePolicy@delete');
         Gate::define('chat.create', 'App\\Policies\\ChatPolicy@create');
 
         Passport::routes();

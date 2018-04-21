@@ -35,14 +35,14 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        if(Gate::denies('message.create', $request->chat_id)) {
+        if(Gate::denies('message.create', request('chat_id'))) {
             abort(403,"Forbidden");
         };
 
         $message = Message::create([
             'user_id' => auth()->user()->id,
-            'chat_id' => $request->chat_id,
-            'message' => $request->message
+            'chat_id' => request('chat_id'),
+            'message' => request('message')
         ])->load('creator');
 
         broadcast(new NewMessage($message))->toOthers();
@@ -81,6 +81,10 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        if(Gate::denies('message.destroy', $message->chat_id)) {
+            abort(403,"Forbidden");
+        };
+
+        abort_unless($message->delete(), 500);
     }
 }

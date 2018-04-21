@@ -41,7 +41,7 @@ class MessagePolicy
      * @param Message $message
      * @return mixed
      */
-    public function update(User $user, Message $message, $chat_id)
+    public function update(User $user, $chat_id)
     {
         return Chat::with('users')->findOrFail($chat_id)->users->pluck('id')->contains($user->id);
     }
@@ -53,7 +53,7 @@ class MessagePolicy
      * @param Message $message
      * @return mixed
      */
-    public function delete(User $user, Message $message, $chat_id)
+    public function delete(User $user, $chat_id)
     {
         return Chat::with('users')->findOrFail($chat_id)->users->pluck('id')->contains($user->id);
     }
