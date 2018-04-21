@@ -65,5 +65,6 @@ class UsersChatsInteractionTest extends TestCase
         $this->assertCount(1, $this->user->chats);
         $this->assertEquals($this->user->chats()->first()->pivot->user_id, $this->user->id);
         $this->assertEquals($userFriend->chats()->first()->pivot->user_id, $userFriend->id);
+        $this->assertTrue(true);
     }
 }
