@@ -11,6 +11,7 @@ before_script:
   - composer install --no-interaction
   - cp .env.testing .env
   - mysql -e 'create database socialapp_testing;'
+  - php artisan migrate --database=mysql_for_testing --env=testing
   - pear install pear/PHP_CodeSniffer
   - phpenv rehash
   - nvm install 7.7.1
