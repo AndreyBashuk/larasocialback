@@ -23,9 +23,8 @@ class MessageController extends Controller
         };
 
         return response(Message::where([
-            'chat_id' => $chat->id,
-            'user_id' => auth()->user()->id
-        ])->with('creator')->simplePaginate(Message::MESSAGE_PAGINATED_COUNT));
+            'chat_id' => $chat->id
+        ])->latest()->with('creator')->simplePaginate(Message::MESSAGE_PAGINATED_COUNT));
     }
 
     /**

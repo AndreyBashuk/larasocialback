@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class ChatController extends Controller
 {
@@ -20,7 +21,7 @@ class ChatController extends Controller
         return response(Chat::whereHas('users', function ($query) {
             $query->where('user_id', auth()->user()->id);
         })->with(['messages' =>  function ($query) {
-            $query->limit(Message::MESSAGE_PAGINATED_COUNT)->with('creator');
+            $query->latest()->limit(Message::MESSAGE_PAGINATED_COUNT)->with('creator');
         }])->with('users')->get());
     }
 
@@ -33,16 +34,23 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->only('is_conversation'))
+        if(request('is_conversation'))
         return response(auth()->user()->chats()->create([
             'is_conversation' => true,
-            'name' => $request->name
+            'name' => request('name')
         ]));
-
-        return response(auth()->user()->chats()->create([
+        if(Gate::denies('chat.create', request('friend_id'))) {
+            abort(403);
+        }
+        $friend = User::findOrFail(request('friend_id'));
+        $chat = auth()->user()->chats()->create([
             'is_conversation' => false,
             'name' => $request->name
-        ]));
+        ]);
+
+        $friend->chats()->attach($chat->id);
+
+        return response($chat);
     }
 
     /**

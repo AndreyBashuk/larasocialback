@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Traits\User\ChatInteraction;
+use App\Models\Traits\User\FriendsInteraction;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\DB;
 use Laravel\Passport\HasApiTokens;
 
 /**
@@ -35,7 +36,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
+    use Notifiable, HasApiTokens, FriendsInteraction, ChatInteraction;
 
     /**
      * The attributes that are mass assignable.
@@ -66,14 +67,7 @@ class User extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
-    /**
-     * @param $chat_id
-     * @return bool
-     */
-    public function canJoinChat($chat_id) {
-        return DB::table('chat_user')->where([
-            'chat_id' => $chat_id,
-            'user_id' => $this->id
-        ])->exists();
+    public function friends() {
+        return $this->belongsToMany(User::class, 'friend_user','user_id','friend_id');
     }
 }

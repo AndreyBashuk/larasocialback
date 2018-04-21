@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Message extends Model
 {
-    const MESSAGE_PAGINATED_COUNT = 10;
+    const MESSAGE_PAGINATED_COUNT = 20;
 
     protected $fillable = ['user_id','chat_id','message'];
 

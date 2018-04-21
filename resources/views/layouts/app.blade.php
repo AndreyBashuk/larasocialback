@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
@@ -66,5 +67,13 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        alert("HI");
+        window.Echo.private('App.User.5630')
+            .listen('NewMessage', function (e) {
+            console.log(e);
+        alert('SUCCESS');
+        });
+    </script>
 </body>
 </html>

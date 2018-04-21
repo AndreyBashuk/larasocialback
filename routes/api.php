@@ -27,7 +27,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/me', 'API\\UserController@show');
     Route::get('chat', 'API\\ChatController@index');
-    Route::post('chat', 'API\\ChatController@store');
+    Route::post('chat', 'API\\ChatController@store')->name('api.create_chat');
     Route::delete('chat/{chat}', 'API\\ChatController@destroy');
 
     Route::post('/message', 'API\\MessageController@store');
