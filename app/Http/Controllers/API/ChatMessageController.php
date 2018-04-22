@@ -21,7 +21,7 @@ class ChatMessageController extends Controller
             [
                 'chat_id' => $chat_id,
                 'user_id' => auth()->user()->id
-            ])->paginate());
+            ])->simplePaginate());
     }
 
     /**

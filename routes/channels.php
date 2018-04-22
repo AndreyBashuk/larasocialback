@@ -11,11 +11,8 @@
 |
 */
 
-use App\Models\Chat;
-
-Broadcast::channel('App.User.{id}', function ($user, $id) {
-    Log::info('Hell yeah');
-    return true;
+Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
 });
 
 Broadcast::channel('chat.{chat}', function ($user, $chat_id) {

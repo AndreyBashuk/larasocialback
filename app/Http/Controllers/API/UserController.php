@@ -8,9 +8,12 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response(User::all());
+        $friends_id = auth()->user()->requestedFriends->pluck('id')
+            ->push(auth()->user()->id);
+
+        return response(User::filter($request->all())->whereNotIn('id',$friends_id)->paginate(User::USERS_PAGINATED_COUNT));
     }
 
     public function store(Request $request)

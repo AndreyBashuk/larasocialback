@@ -17,9 +17,11 @@ class CreateFriendUserTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('friend_id');
+            $table->enum('status',['request','accept'])->default('request');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('friend_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->unique(['user_id','friend_id']);
 
         });
     }

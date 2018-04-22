@@ -32,13 +32,37 @@ class UsersFriendsInteractionTest extends TestCase
     /**
      * @test
      */
-    public function user_can_add_another_user_to_friends()
+    public function user_can_add_friendship_request_to_another_user()
     {
-        $user1 = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
-        $user1->addToFriends($user2);
-        $this->assertEquals($user1->friends->pluck('id')->first(), $user2->id);
-        $this->assertEquals($user2->friends->pluck('id')->first(), $user1->id);
+        $requested_friend = factory(User::class)->create();
+        $this->user->sendFriendshipRequest($requested_friend);
+        $this->assertCount(1,$this->user->requestedFriends);
+        $this->assertTrue($this->user->requestedFriends[0]->pivot->status === User::FRIENDSHIP_STATUS['REQUEST']);
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_accept_another_user_friendship_request()
+    {
+        $requested_friend = factory(User::class)->create();
+        $this->user->sendFriendshipRequest($requested_friend);
+        $requested_friend->addToFriends($this->user);
+        $this->assertEquals($this->user->requestedFriends->pluck('id')->first(), $requested_friend->id);
+        $this->assertEquals($requested_friend->requestedFriends->pluck('id')->first(), $this->user->id);
+        $this->assertEquals($this->user->requestedFriends->first()->pivot->status, User::FRIENDSHIP_STATUS['ACCEPT']);
+        $this->assertEquals($requested_friend->requestedFriends->first()->pivot->status , User::FRIENDSHIP_STATUS['ACCEPT']);
+    }
+
+    /**
+     * @test
+     */
+    public function user_cannot_be_friend_before_he_dont_accept_friendship_request() {
+        $requested_friend = factory(User::class)->create();
+        $this->user->sendFriendshipRequest($requested_friend);
+        $this->assertCount(0,$this->user->friends);
+        $requested_friend->addToFriends($this->user);
+        $this->assertCount(1,$this->user->fresh()->friends);
     }
 
     /**
@@ -46,45 +70,11 @@ class UsersFriendsInteractionTest extends TestCase
      */
     public function user_can_delete_another_user_from_friends_and_another_user_still_has_old_user()
     {
-        $user1 = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
-        $user1->addToFriends($user2);
-        $this->assertEquals($user1->friends->pluck('id')->first(), $user2->id);
-        $this->assertEquals($user2->friends->pluck('id')->first(), $user1->id);
-        $user1->removeFromFriends($user2);
-        $this->assertCount(0, $user1->fresh()->friends->pluck('id'));
-        $this->assertEquals($user2->friends->pluck('id')->first(), $user1->id);
-    }
-
-    /**
-     * @test
-     */
-    public function user_can_fetch_their_friends()
-    {
-        $user2 = factory(User::class)->create();
-        $this->user->addToFriends($user2);
-        $this->assertCount(1, $this->user->fresh()->friends()->get());
-        $result = $this->json('get', route('api.friends.get'))->assertStatus(200);
-        $this->assertCount(1, $result->json());
-    }
-
-    /**
-     * @test
-     */
-    public function user_can_add_to_friends_another_user()
-    {
-        $user2 = factory(User::class)->create();
-        $this->post(route('api.friends.post'), [
-            'friend_id' => $user2->id
-        ])->assertStatus(200);
-        $this->assertEquals($user2->name, $this->user->friends->first()->name);
-    }
-
-    /**
-     * @test
-     */
-    public function user_can_fetch_all_users()
-    {
-        $this->get(route('api.users.get'))->assertStatus(200);
+        $requested_friend = factory(User::class)->create();
+        $this->user->sendFriendshipRequest($requested_friend);
+        $requested_friend->addToFriends($this->user);
+        $requested_friend->removeFromFriends($this->user);
+        $this->assertCount(0, $requested_friend->fresh()->requestedFriends->pluck('id'));
+        $this->assertEquals($this->user->requestedFriends->pluck('id')->first(), $requested_friend->id);
     }
 }

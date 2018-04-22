@@ -27,8 +27,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/me', 'API\\UserController@show');
     Route::get('users', 'API\\UserController@index')->name('api.users.get');
-    Route::get('chat', 'API\\ChatController@index');
-    Route::post('chat', 'API\\ChatController@store')->name('api.chat.post');
+    Route::get('chats', 'API\\ChatController@index')->name('api.chat.get');
+    Route::post('chats', 'API\\ChatController@store')->name('api.chat.post');
     Route::delete('chat/{chat}', 'API\\ChatController@destroy')->name('api.chat.delete');
 
     Route::post('/message', 'API\\MessageController@store')->name('api.message.post');
@@ -38,4 +38,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('friends', 'API\\FriendController@index')->name('api.friends.get');
     Route::post('friends', 'API\\FriendController@store')->name('api.friends.post');
+    Route::post('friends/confirm','API\\FriendController@confirm')->name('api.friends.confirm');
+
+    Route::get('notifications', 'API\\NotificationsController@index')->name('api.notifications.get');
+    Route::put('notifications', 'API\\NotificationsController@update')->name('api.notifications.update');
 });

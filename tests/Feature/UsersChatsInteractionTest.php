@@ -60,7 +60,7 @@ class UsersChatsInteractionTest extends TestCase
     {
 
         $userFriend = factory(User::class)->create();
-        $this->user->friends()->attach($userFriend->id);
+        $this->user->requestedFriends()->attach($userFriend->id);
         $chat = $this->json('post', route('api.chat.post', [
             'is_conversation' => false,
             'friend_id' => $userFriend->id,
